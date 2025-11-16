@@ -1,4 +1,4 @@
-package org.ivcode.ai.synapp.agent
+package org.ivcode.ai.ollama.agent
 
 interface OllamaChatAgentFactory {
     fun createOllamaSession(): OllamaChatAgent

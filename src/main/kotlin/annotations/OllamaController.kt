@@ -1,4 +1,4 @@
-package org.ivcode.ai.synapp.annotations
+package org.ivcode.ai.ollama.annotations
 
 import org.springframework.stereotype.Component
 

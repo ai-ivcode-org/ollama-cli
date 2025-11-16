@@ -1,8 +1,8 @@
-package org.ivcode.ai.synapp.agent
+package org.ivcode.ai.ollama.agent
 
-import org.ivcode.ai.synapp.core.OllamaFactory
-import org.ivcode.ai.synapp.history.OllamaHistoryManagerFactory
-import org.ivcode.ai.synapp.system.OllamaSystemMessageFactory
+import org.ivcode.ai.ollama.core.OllamaFactory
+import org.ivcode.ai.ollama.history.OllamaHistoryManagerFactory
+import org.ivcode.ai.ollama.system.OllamaSystemMessageFactory
 
 class Ollama4jChatAgentFactory (
     private val model: String,

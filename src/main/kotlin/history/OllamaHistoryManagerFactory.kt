@@ -1,4 +1,4 @@
-package org.ivcode.ai.synapp.history
+package org.ivcode.ai.ollama.history
 
 interface OllamaHistoryManagerFactory {
     fun createHistoryManager(): OllamaHistoryManager

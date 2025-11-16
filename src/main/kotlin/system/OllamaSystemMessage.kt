@@ -1,4 +1,4 @@
-package org.ivcode.ai.synapp.system
+package org.ivcode.ai.ollama.system
 
 /**
  * A function that provides information (dynamic or static) to the LLM as a system message.

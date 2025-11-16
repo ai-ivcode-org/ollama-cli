@@ -1,30 +1,30 @@
-package org.ivcode.ai.synapp.config
+package org.ivcode.ai.ollama.config
 
 import io.github.ollama4j.tools.Tools
-import org.ivcode.ai.synapp.agent.Ollama4jChatAgentFactory
-import org.ivcode.ai.synapp.agent.OllamaChatAgentFactory
-import org.ivcode.ai.synapp.annotations.OllamaController
-import org.ivcode.ai.synapp.controller.ControllerParser
-import org.ivcode.ai.synapp.core.Ollama4jFactory
-import org.ivcode.ai.synapp.core.OllamaFactory
-import org.ivcode.ai.synapp.history.InMemoryHistoryManagerFactory
-import org.ivcode.ai.synapp.history.OllamaHistoryManagerFactory
-import org.ivcode.ai.synapp.system.BasicSystemMessageFactory
-import org.ivcode.ai.synapp.system.OllamaSystemMessage
-import org.ivcode.ai.synapp.system.OllamaSystemMessageFactory
+import org.ivcode.ai.ollama.agent.Ollama4jChatAgentFactory
+import org.ivcode.ai.ollama.agent.OllamaChatAgentFactory
+import org.ivcode.ai.ollama.annotations.OllamaController
+import org.ivcode.ai.ollama.controller.ControllerParser
+import org.ivcode.ai.ollama.core.Ollama4jFactory
+import org.ivcode.ai.ollama.core.OllamaFactory
+import org.ivcode.ai.ollama.history.InMemoryHistoryManagerFactory
+import org.ivcode.ai.ollama.history.OllamaHistoryManagerFactory
+import org.ivcode.ai.ollama.system.BasicSystemMessageFactory
+import org.ivcode.ai.ollama.system.OllamaSystemMessage
+import org.ivcode.ai.ollama.system.OllamaSystemMessageFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 
 
 const val PROPERTY_URL = "ollama.url"
 const val PROPERTY_MODEL_NAME = "ollama.model"
 const val PROPERTY_REQUEST_TIMEOUT = "ollama.requestTimeoutSeconds"
 
-@Configuration
+@AutoConfiguration
 class OllamaConfig(
     @Value("\${$PROPERTY_URL:http://localhost:11434}") private val url: String,
     @Value("\${$PROPERTY_MODEL_NAME:gpt-oss:20b}") private val model: String,

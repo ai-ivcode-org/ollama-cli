@@ -1,11 +1,11 @@
-package org.ivcode.ai.synapp.agent
+package org.ivcode.ai.ollama.agent
 
 import io.github.ollama4j.Ollama
 import io.github.ollama4j.models.chat.OllamaChatResult
 import io.github.ollama4j.models.chat.OllamaChatTokenHandler
 import io.github.ollama4j.agent.Agent
-import org.ivcode.ai.synapp.history.OllamaHistoryMessage
-import org.ivcode.ai.synapp.system.OllamaSystemMessage
+import io.github.ollama4j.models.chat.OllamaChatMessage
+import org.ivcode.ai.ollama.system.OllamaSystemMessage
 import java.util.UUID
 
 /**
@@ -20,5 +20,5 @@ interface OllamaChatAgent {
     fun chat(message: String, tokenHandler: OllamaChatTokenHandler? = null): OllamaChatResult
 
     fun getSessionId(): UUID
-    fun getChatHistory(): List<OllamaHistoryMessage>
+    fun getChatHistory(): List<OllamaChatMessage>
 }

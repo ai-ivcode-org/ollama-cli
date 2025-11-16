@@ -1,9 +1,9 @@
-package org.ivcode.ai.synapp.controller
+package org.ivcode.ai.ollama.controller
 
-import org.ivcode.ai.synapp.annotations.SystemMessage
-import org.ivcode.ai.synapp.system.KFunctionSystemMessage
-import org.ivcode.ai.synapp.system.KPropertySystemMessage
-import org.ivcode.ai.synapp.system.OllamaSystemMessage
+import org.ivcode.ai.ollama.annotations.SystemMessage
+import org.ivcode.ai.ollama.system.KFunctionSystemMessage
+import org.ivcode.ai.ollama.system.KPropertySystemMessage
+import org.ivcode.ai.ollama.system.OllamaSystemMessage
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.declaredMemberFunctions
 import kotlin.reflect.full.declaredMemberProperties

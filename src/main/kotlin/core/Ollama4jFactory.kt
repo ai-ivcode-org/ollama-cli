@@ -1,4 +1,4 @@
-package org.ivcode.ai.synapp.core
+package org.ivcode.ai.ollama.core
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import io.github.ollama4j.Ollama

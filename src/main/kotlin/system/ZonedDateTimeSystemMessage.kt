@@ -1,4 +1,4 @@
-package org.ivcode.ai.synapp.system
+package org.ivcode.ai.ollama.system
 
 
 import java.time.ZonedDateTime

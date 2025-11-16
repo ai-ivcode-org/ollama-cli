@@ -1,4 +1,4 @@
-package org.ivcode.ai.synapp.annotations
+package org.ivcode.ai.ollama.annotations
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.FIELD, AnnotationTarget.PROPERTY)
 @Retention(AnnotationRetention.RUNTIME)
