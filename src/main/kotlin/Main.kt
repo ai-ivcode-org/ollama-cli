@@ -1,22 +1,63 @@
-package org.ivcode.ai.ollama.cli
+package org.ivcode.ai.synapp
 
-import io.github.ollama4j.Ollama
+import com.fasterxml.jackson.databind.DeserializationFeature
+import io.github.ollama4j.models.chat.OllamaChatTokenHandler
+import io.github.ollama4j.utils.Utils
+import org.ivcode.ai.synapp.agent.OllamaChatAgent
+import org.ivcode.ai.synapp.agent.OllamaChatAgentFactory
+import org.ivcode.ai.synapp.config.OllamaConfig
+import org.springframework.boot.CommandLineRunner
+import org.springframework.boot.WebApplicationType
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.SpringApplication
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Import
 
 
-/**
- * Simple test entry point that starts the interactive Ollama CLI.
- *
- * This program:
- * - Creates an `Ollama` client pointed at a local Ollama server (default: http://localhost:11434/).
- * - Calls the `startChat` REPL helper with a specified model name so you can manually test model behavior.
- *
- * Notes (for testing only):
- * - A running Ollama server must be accessible at the configured URL.
- * - Replace the model name ("gpt-oss:20b") with any model available to your Ollama instance.
- * - This is a blocking, single-threaded test runner and is not intended for production use.
- */
-internal fun main() {
-    // Create a client for a locally running Ollama server and start the interactive chat REPL
-    // using the "gpt-oss:20b" model. Change the model string to test a different model.
-    Ollama("http://localhost:11434").startChat("gpt-oss:20b")
+@SpringBootApplication
+@Import(OllamaConfig::class)
+class CliApp {
+
+    @Bean
+    fun runner(agentFactory: OllamaChatAgentFactory) = CommandLineRunner { args ->
+        val session = agentFactory.createOllamaSession()
+        session.startChat()
+    }
+}
+
+fun main(args: Array<String>) {
+    Utils.getObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+
+    val app = SpringApplication(CliApp::class.java)
+    app.webApplicationType = WebApplicationType.NONE // ensures no web server
+    app.run(*args)
+}
+
+internal fun OllamaChatAgent.startChat() {
+
+    // Main REPL loop: read user input, send a chat request including history, stream response.
+    while (true) {
+        print("User: ")
+        val userInput = readlnOrNull()?.trim()
+        // Exit on EOF or the literal "exit" (case-insensitive)
+        if (userInput == null || userInput.equals("exit", ignoreCase = true)) break
+        // Ignore empty lines (no-op)
+        if (userInput.isEmpty()) continue
+
+        print("Assistant: ")
+        chat(userInput, OllamaChatTokenHandler { resp ->
+            val chunk = resp.message?.response
+            if (!chunk.isNullOrEmpty()) {
+                print(chunk)
+            }
+
+            val done = resp.isDone
+            if (done) {
+                println()
+            }
+        })
+    }
+
+    // Clean exit message when the REPL loop ends.
+    println("Goodbye.")
 }

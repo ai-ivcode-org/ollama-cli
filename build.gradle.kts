@@ -4,6 +4,9 @@ import java.net.URI
 plugins {
     id("s3mvn")
     kotlin("jvm") version "2.1.10"
+    kotlin("plugin.spring") version "2.1.10"
+    id("org.springframework.boot") version "3.2.2"
+    id("io.spring.dependency-management") version "1.1.4"
 }
 
 group = "org.ivcode"
@@ -27,6 +30,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.1.10")
 
     implementation("io.github.ollama4j:ollama4j:1.1.4")
+
+    // Spring Boot
+    implementation("org.springframework.boot:spring-boot-starter")
+
+    // Kotlin CLI
+    implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.6")
 
     testImplementation(kotlin("test"))
 }
