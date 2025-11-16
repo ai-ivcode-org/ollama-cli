@@ -5,7 +5,6 @@ import io.github.ollama4j.utils.Utils
 import org.ivcode.ai.synapp.agent.OllamaChatAgent
 import org.ivcode.ai.synapp.agent.OllamaChatAgentFactory
 import org.ivcode.ai.synapp.config.OllamaConfig
-import org.ivcode.ai.synapp.system.CliSystemMessage
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.WebApplicationType
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -14,6 +13,13 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
 
 
+const val CLI_SYSTEM_MESSAGE =
+"""
+You are an AI assistant that follows the tester’s instructions first. If a request is not explicitly about formatting,
+present your answer in plain text suitable for a terminal (no markdown, no code fences). Only apply special formatting
+when the tester explicitly asks for it. Keep responses clear, concise, and respectful.
+"""
+
 @SpringBootApplication
 @Import(OllamaConfig::class)
 class CliApp {
@@ -21,7 +27,7 @@ class CliApp {
     @Bean
     fun runner(agentFactory: OllamaChatAgentFactory) = CommandLineRunner { args ->
         val session = agentFactory.createOllamaSession()
-        session.systemMessages.add(CliSystemMessage())
+        session.systemMessages.add { CLI_SYSTEM_MESSAGE }
         session.startChat()
     }
 }
