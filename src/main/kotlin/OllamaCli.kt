@@ -19,7 +19,7 @@ when the tester explicitly asks for it. Keep responses clear, concise, and respe
 """
 
 @SpringBootApplication
-class OllamaCli {
+internal class OllamaCli {
 
     @Bean
     fun runner(agentFactory: OllamaChatAgentFactory) = CommandLineRunner { args ->
@@ -27,33 +27,43 @@ class OllamaCli {
         session.systemMessages.add { CLI_SYSTEM_MESSAGE }
         session.startChat()
     }
-}
 
-internal fun OllamaChatAgent.startChat() {
+    fun OllamaChatAgent.startChat() {
 
-    // Main REPL loop: read user input, send a chat request including history, stream response.
-    while (true) {
-        print("User: ")
-        val userInput = readlnOrNull()?.trim()
-        // Exit on EOF or the literal "exit" (case-insensitive)
-        if (userInput == null || userInput.equals("exit", ignoreCase = true)) break
-        // Ignore empty lines (no-op)
-        if (userInput.isEmpty()) continue
+        // Main REPL loop: read user input, send a chat request including history, stream response.
+        while (true) {
+            print("User: ")
+            val userInput = readlnOrNull()?.trim()
+            // Exit on EOF or the literal "exit" (case-insensitive)
+            if (userInput == null || userInput.equals("exit", ignoreCase = true)) break
+            // Ignore empty lines (no-op)
+            if (userInput.isEmpty()) continue
 
-        print("Assistant: ")
-        chat(userInput) { resp ->
-            val chunk = resp.message?.response
-            if (!chunk.isNullOrEmpty()) {
-                print(chunk)
-            }
+            print("Assistant: ")
+            chat(userInput) { resp ->
+                val chunk = resp.message?.response
+                if (!chunk.isNullOrEmpty()) {
+                    print(chunk)
+                }
 
-            val done = resp.isDone
-            if (done) {
-                println()
+                val done = resp.isDone
+                if (done) {
+                    println()
+                }
             }
         }
-    }
 
-    // Clean exit message when the REPL loop ends.
-    println("Goodbye.")
+        // Clean exit message when the REPL loop ends.
+        println("Goodbye.")
+    }
+}
+
+internal fun main(): Unit = startCli()
+
+fun startCli() {
+    Utils.getObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+
+    val app = SpringApplication(OllamaCli::class.java)
+    app.webApplicationType = WebApplicationType.NONE // ensures no web server
+    app.run()
 }
